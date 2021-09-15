@@ -1,0 +1,23 @@
+{
+    "name": "ahmetbarut/translation",
+    "description": "Çoklu dil kullanan web sitesinde birden fazla dil ve kullanım kolaylığı sunuyor.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ahmetbarut\\Translation\\": "src/"
+        },
+        "files": [
+            "./src/Helper/helper.php"
+        ]
+    },
+    "authors": [{
+        "name": "Ahmet Barut",
+        "email": "ahmetbarut588@gmail.com"
+    }],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "symfony/var-dumper": "*"
+    }
+}

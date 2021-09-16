@@ -55,7 +55,7 @@ class ArrayLoader implements ILoader
     {
         $key = explode('.', $key);
         if ($this->getFile($key[0]) === false) {
-            return $key;
+            return current($key);
         }
         return $this->translations[$key[1]];
     }

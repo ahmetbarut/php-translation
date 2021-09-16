@@ -44,7 +44,7 @@ class JsonLoader implements ILoader
     {
         $key = explode('.', $key);
         if($this->getFile($key[0]) === false) {
-            return false;
+            return current($key);
         }
         
         return $this->translations->{$key[1]};

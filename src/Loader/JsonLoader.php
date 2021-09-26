@@ -11,27 +11,28 @@ class JsonLoader implements ILoader
      *
      * @var object
      */
-    public $translations;
+    public object $translations;
 
     /**
      * directory of files
      *
      * @var string
      */
-    public $path;
+    public string $path;
 
     /**
      * Returns the content of the requested file.
      *
      * @param string $file
-     * @return void
+     * @return bool|JsonLoader
      */
-    public function getFile($file)
+    public function get(string $file): bool|static
     {
         if (!file_exists($this->path . '/' . $file . '.json')) {
             return false;
         }
         $this->translations = json_decode(file_get_contents($this->path . '/' . $file . '.json'), null);
+        return $this;
     }
 
     /**
@@ -39,14 +40,20 @@ class JsonLoader implements ILoader
      *
      * @param string $key
      * @return void
+     * @throws \Exception
      */
-    public function key($key)
+    public function key(string $key)
     {
         $key = explode('.', $key);
-        if($this->getFile($key[0]) === false) {
+
+        if (count($key) === 1){
+            throw new \Exception("This is the array loader, not the Database loader.");
+        }
+
+        if($this->get($key[0]) === false) {
             return current($key);
         }
-        
+
         return $this->translations->{$key[1]};
     }
 
@@ -54,9 +61,9 @@ class JsonLoader implements ILoader
      * Resolves the directory where the files are located
      * @param string $path
      * @param string $locale
-     * @return void
+     * @return static
      */
-    public function resolveFile($path, $locale)
+    public function resolve(mixed $path, string $locale): static
     {
         $this->path = $path . '/' . $locale;
         return $this;

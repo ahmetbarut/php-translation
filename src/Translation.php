@@ -4,13 +4,13 @@ namespace ahmetbarut\Translation;
 
 class Translation 
 {
-    protected $path;
+    protected null|\PDO|string $path;
     
-    protected $format;
+    protected string $format;
 
     protected static $loader;
     
-    protected static $locale = "en";
+    protected static string $locale = "en";
     
     /**
      * Undocumented function
@@ -18,7 +18,7 @@ class Translation
      * @param string $path dil dosyalarının bulunduğu dizini belirtir
      * @param string $format Hangi dosya tipinin kullanılacağını belirtir.
      */
-    public function __construct($path, $format = "array")
+    public function __construct(string $path, string $format = "array", ?\PDO $connect = null)
     {
         $this->path = $path;
 
@@ -28,7 +28,7 @@ class Translation
 
         static::$loader = new $class[$format]['class'];
 
-        static::$loader->resolveFile($path, static::$locale);
+        static::$loader->resolve($path, static::$locale);
     }
 
     /**
@@ -37,7 +37,7 @@ class Translation
      * @param string $key
      * @return string
      */
-    public static function get($key)
+    public static function get(string $key): string
     {
         return static::$loader->key($key);
     }
@@ -48,9 +48,9 @@ class Translation
      * @param string $locale
      * @return void
      */
-    public function setLocale($locale)
+    public function setLocale(string $locale)
     {
-        static::$loader->resolveFile($this->path, $locale);
+        static::$loader->resolve($this->path, $locale);
 
         static::$locale = $locale;
     }

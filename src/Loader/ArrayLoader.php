@@ -25,7 +25,7 @@ class ArrayLoader implements ILoader
      * @param string $file
      * @return void
      */
-    public function resolveFile($path, $locale)
+    public function resolve(mixed $path, string $locale)
     {
         $this->path = $path . '/' . $locale;
         return $this;
@@ -34,10 +34,10 @@ class ArrayLoader implements ILoader
     /**
      * Returns the value of the relevant key.
      *
-     * @param string $key
-     * @return void
+     * @param string $file
+     * @return false
      */
-    public function getFile($file)
+    public function get(string $file)
     {
         if (!file_exists($this->path . '/' . $file . '.php')) {
             return false;
@@ -50,11 +50,17 @@ class ArrayLoader implements ILoader
      * @param string $path
      * @param string $locale
      * @return void
+     * @throws \Exception
      */
-    public function key($key)
+    public function key(string $key)
     {
         $key = explode('.', $key);
-        if ($this->getFile($key[0]) === false) {
+
+        if (count($key) === 1){
+            throw new \Exception("This is the array loader, not the Database loader.");
+        }
+
+        if ($this->get($key[0]) === false) {
             return current($key);
         }
         return $this->translations[$key[1]];

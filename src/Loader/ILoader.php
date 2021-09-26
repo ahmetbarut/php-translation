@@ -10,7 +10,7 @@ interface ILoader
      * @param string $file
      * @return void
      */
-    public function getFile($file);
+    public function get(string $file);
 
 
     /**
@@ -19,7 +19,7 @@ interface ILoader
      * @param string $key
      * @return string
      */
-    public function key($key);
+    public function key(string $key);
 
 
     /**
@@ -30,5 +30,5 @@ interface ILoader
      * @param string $locale
      * @return object
      */
-    public function resolveFile($path, $locale);
+    public function resolve(mixed $path, string $locale);
 }

@@ -16,7 +16,9 @@
         "email": "ahmetbarut588@gmail.com"
     }],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+      "ext-pdo": "*"
+    },
     "require-dev": {
         "symfony/var-dumper": "*"
     }

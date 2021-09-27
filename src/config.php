@@ -7,5 +7,8 @@ return [
 
     'json' => [
         'class' => \ahmetbarut\Translation\Loader\JsonLoader::class
+    ],
+    'db' => [
+        'class' => \ahmetbarut\Translation\Loader\DatabaseLoader::class
     ]
 ];

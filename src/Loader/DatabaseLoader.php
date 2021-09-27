@@ -6,9 +6,24 @@ namespace ahmetbarut\Translation\Loader;
 
 class DatabaseLoader implements ILoader
 {
+    /**
+     * Stored results.
+     * @var array $results
+     */
     private array $results = [];
 
+    /**
+     * Stored resolve keys.
+     * @var array $resolved
+     */
     private array $resolved = [];
+
+    /**
+     * Store table name.
+     * @var string $table
+     */
+    private string $table;
+
     /**
      * @inheritDoc
      */
@@ -31,11 +46,20 @@ class DatabaseLoader implements ILoader
     /**
      * @inheritDoc
      */
-    public function resolve(string $path, string $locale)
+    public function resolve(mixed $path, string $locale)
     {
-        $query = $path->prepare("SELECT key,value FROM langs where language = :locale");
+        $query = $path->prepare("SELECT key,value FROM {$this->table} where language = :locale");
         $query->bindParam(':locale', $locale, \PDO::PARAM_STR);
         $query->execute();
+
         $this->results = $query->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Set table.
+     * @param  string  $tableName
+     */
+    public function table(string $tableName){
+        $this->table = $tableName;
     }
 }

@@ -2,33 +2,55 @@
 
 namespace ahmetbarut\Translation;
 
-class Translation 
+use ahmetbarut\Translation\Loader\ILoader;
+use PDO;
+
+class Translation
 {
-    protected null|\PDO|string $path;
-    
+    /**
+     * Store directory or database connection.
+     * @var PDO|string|null
+     */
+    protected null|PDO|string $path;
+
+    /**
+     * Store format type.
+     * @var string
+     */
     protected string $format;
 
-    protected static $loader;
-    
+    /**
+     * Store loader.
+     * @var ILoader
+     */
+    protected static ILoader $loader;
+
+    /**
+     * Store locale.
+     * @var string
+     */
     protected static string $locale = "en";
     
     /**
-     * Undocumented function
+     * Translation constructor
      *
-     * @param string $path dil dosyalarının bulunduğu dizini belirtir
-     * @param string $format Hangi dosya tipinin kullanılacağını belirtir.
+     * @param string $path specifies the directory where the language files are located
+     * @param string $format Specifies which file type to use.
      */
-    public function __construct(string $path, string $format = "array", ?\PDO $connect = null)
+    public function __construct(string $path = "", string $format = "array", ?PDO $connect = null, string $table = "translation")
     {
-        $this->path = $path;
-
         $this->format = $format;
 
         $class = include __DIR__.'/config.php';
 
         static::$loader = new $class[$format]['class'];
 
-        static::$loader->resolve($path, static::$locale);
+        $this->path = ($format === 'db') ? $connect : $path;
+
+        if ($format === 'db') {
+            static::$loader->table($table);
+        }
+
     }
 
     /**

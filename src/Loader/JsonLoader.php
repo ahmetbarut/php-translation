@@ -47,7 +47,7 @@ class JsonLoader implements ILoader
         $key = explode('.', $key);
 
         if (count($key) === 1){
-            throw new \Exception("This is the array loader, not the Database loader.");
+            throw new \Exception("This is the json loader, not the Database loader.");
         }
 
         if($this->get($key[0]) === false) {

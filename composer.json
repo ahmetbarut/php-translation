@@ -1,7 +1,7 @@
 {
     "name": "ahmetbarut/translation",
     "description": "Çoklu dil kullanan web sitesinde birden fazla dil ve kullanım kolaylığı sunuyor.",
-    "type": "project",
+    "type": "package",
     "license": "MIT",
     "autoload": {
         "psr-4": {
